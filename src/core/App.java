@@ -7,13 +7,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-@Path("/xml")
+@Path("/json")
 
 public class App {
 
 	@GET
 	@Path("/imperial")
-	@Produces("application/xml")
+	@Produces("application/json")
 	public String CalcImperial(@DefaultValue("1") @QueryParam("height") int h, // h
 																				// in
 																				// inches
@@ -21,13 +21,12 @@ public class App {
 		DecimalFormat df = new DecimalFormat("####0.0");
 		Double bmi = (double) w / (h * h) * 703; // w / Math.pow(h, 2) * 703
 		String result = df.format(bmi).toString();
-		return "<calc unit=\"imperial\">" + "<height>" + h + "</height>" + "<weight>" + w + "</weight>" + "<bmi>"
-				+ result + "</bmi>" + "</calc>";
+		return "{\"calc\": {\"unit\": \"imperial\", \"height\": " + h + "\"weight\": " + w + "\"bmi\": " + result + "}}";
 	}
 
 	@GET
 	@Path("/metric")
-	@Produces("application/xml")
+	@Produces("application/json")
 	public String CalcMetric(@DefaultValue("1") @QueryParam("height") int h, // h
 																				// in
 																				// centimeter
@@ -35,7 +34,6 @@ public class App {
 		DecimalFormat df = new DecimalFormat("####0.0");
 		Double bmi = (double) (((w / (h * h)) * 10000));
 		String result = df.format(bmi).toString();
-		return "<calc unit=\"metric\">" + "<height>" + h + "</height>" + "<weight>" + w + "</weight>" + "<bmi>" + result
-				+ "</bmi>" + "</calc>";
+		return "{\"calc\": {\"unit\": \"metric\", \"height\": " + h + "\"weight\": " + w + "\"bmi\": " + result + "}}";
 	}
 }
